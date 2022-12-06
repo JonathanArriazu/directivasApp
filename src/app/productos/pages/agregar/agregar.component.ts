@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-agregar',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AgregarComponent implements OnInit {
 
-  constructor() { }
+  miFormulario: FormGroup = this.fb.group({
+    nombre: ['', Validators.required]
+  })
+
+  constructor(private fb : FormBuilder) { }
 
   ngOnInit(): void {
+  }
+
+  tieneError ( campo: string ) : boolean {
+    //Como puede que le envie un campo que no existe, si no coloco el || false, me marca error
+    return this.miFormulario.get(campo)?.invalid || false;
+    // otra forma seria: return this.miFormulario.get(campo)!.valid ==> TS confia en mi, siempre va a tener un valor el campo
   }
 
 }
